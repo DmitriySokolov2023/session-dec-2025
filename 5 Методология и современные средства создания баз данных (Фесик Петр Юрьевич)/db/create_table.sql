@@ -1,4 +1,4 @@
--- ===== 1) КЛИЕНТЫ ============================================================
+
 CREATE TABLE clients (
     id           BIGSERIAL PRIMARY KEY,
     is_company   BOOLEAN      NOT NULL DEFAULT FALSE,
@@ -26,7 +26,6 @@ CREATE TABLE cars (
     CONSTRAINT cars_year_chk        CHECK (year IS NULL OR year BETWEEN 1950 AND 2100),
     CONSTRAINT cars_mileage_chk     CHECK (mileage IS NULL OR mileage >= 0),
 
-    -- для составного FK из orders (car_id, client_id) → cars(id, client_id)
     CONSTRAINT cars_id_client_uq    UNIQUE (id, client_id)
 );
 
@@ -95,11 +94,10 @@ CREATE TABLE orders (
     status     VARCHAR(15) NOT NULL,
     comment    VARCHAR(300),
 
-    -- прямые связи
+
     CONSTRAINT orders_client_fk FOREIGN KEY (client_id)
         REFERENCES clients(id) ON UPDATE CASCADE,
 
-    -- гарантирует, что car_id принадлежит этому же client_id
     CONSTRAINT orders_car_client_fk FOREIGN KEY (car_id, client_id)
         REFERENCES cars(id, client_id) ON UPDATE CASCADE,
 
@@ -117,10 +115,9 @@ CREATE TABLE service_items (
     id          BIGSERIAL PRIMARY KEY,
     order_id    BIGINT NOT NULL REFERENCES orders(id) ON DELETE CASCADE,
     service_id  BIGINT NOT NULL REFERENCES services(id),
-    employee_id BIGINT     REFERENCES employees(id), -- исполнитель (может быть NULL на этапе черновика)
+    employee_id BIGINT     REFERENCES employees(id), 
     quantity    NUMERIC(10,2) NOT NULL DEFAULT 1,
     unit_price  NUMERIC(10,2) NOT NULL,
-    -- при желании можно хранить сумму, но безопаснее вычислять:
     line_total  NUMERIC(12,2) GENERATED ALWAYS AS (quantity * unit_price) STORED,
     CONSTRAINT service_items_qty_chk   CHECK (quantity > 0),
     CONSTRAINT service_items_price_chk CHECK (unit_price >= 0)
