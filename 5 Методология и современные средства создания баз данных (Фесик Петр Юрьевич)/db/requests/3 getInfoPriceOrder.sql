@@ -8,7 +8,7 @@ mat_total AS (
   FROM material_items mi
   WHERE mi.service_item_id IN (SELECT id FROM service_items WHERE order_id = 3)
 )
-SELECT s."услуги",
-       m."материалы",
-       (s."услуги" + m."материалы") AS "сумма заказа"
-FROM svc_total s CROSS JOIN mat_total m;
+SELECT 
+  (SELECT "услуги" FROM svc_total) AS "услуги",
+  (SELECT "материалы" FROM mat_total) AS "материалы",
+  (SELECT "услуги" FROM svc_total) + (SELECT "материалы" FROM mat_total) AS "сумма заказа";
