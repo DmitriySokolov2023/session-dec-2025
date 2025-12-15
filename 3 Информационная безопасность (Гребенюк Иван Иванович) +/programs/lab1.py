@@ -2,8 +2,8 @@ import random
 
 def print_matrix(matrix):
     users = list(matrix.keys())
-    objects = list(matrix[users[0]].keys())
-    
+    objects = list(matrix[users[0]].keys()) # получаем объекты, по первому пользователю, тк объекты повторяются у всех пользователей
+
     
     header = f"{'':<12} | " + " | ".join(f"{obj:<15}" for obj in objects)
     separator = "-" * len(header)
@@ -46,12 +46,11 @@ def create_access_matrix(seed=None):
         for o in OBJECTS:
             mat[u][o] = set()
 
-  
     for o in OBJECTS:
         mat[USER_ADMIN][o] = {S[3]}
 
+    base_rights = list(S.values())[:-1]  #СРЕЗАЕМ ПОСЛЕДНИЙ ЭЛЕМЕНТ, ТК АДМИН УЖЕ ПОЛУЧИЛ СВОИ ПРАВА
     
-    base_rights = list(S.values())[:-1]  
 
     for u in USERS:
         if u == USER_ADMIN:
@@ -63,7 +62,8 @@ def create_access_matrix(seed=None):
             elif r < 0.65:
                 mat[u][o] = {random.choice(base_rights)}  
             else:
-                mat[u][o] = set(base_rights)               
+                mat[u][o] = set(base_rights)
+    print(mat)               
     return mat
 
 
@@ -136,7 +136,35 @@ def main():
                 matrix[target_user][obj].add(right_to_give)
                 print("Операция прошла успешно")
                 print_matrix(matrix)
+            elif command == "pickup":
+                obj_num = input("Право на какой объект нужно забрать? ")
+                if not obj_num.isdigit() or not (1 <= int(obj_num) <= len(OBJECTS)):
+                    print("Ошибка: неверный номер объекта.")
+                    continue
 
+                obj = OBJECTS[int(obj_num) - 1]
+                rights = matrix[user][obj]
+
+                if "Полные права" not in rights:
+                    print("Отказ в выполнении операции. У Вас нет прав для ее осуществления.")
+                    continue
+
+                right_to_give = input("Какое право забирается? (read/write) ").strip()
+                if right_to_give not in ["read", "write"]:
+                    print("Ошибка: недопустимое право.")
+                    continue
+
+                target_user = input("У какого пользователя забирается право? ").strip()
+                if target_user not in USERS:
+                    print("Ошибка: пользователь не найден.")
+                    continue
+                if right_to_give not in matrix[target_user][obj]:
+                    print(f"Ошибка: у пользователя {target_user} нет права {right_to_give} на объект {obj}")
+                    continue
+                
+                matrix[target_user][obj].remove(right_to_give)
+                print("Операция прошла успешно")
+                print_matrix(matrix)
             else:
                 print("Неизвестная команда. Доступные: read, write, grant, quit")
                 
