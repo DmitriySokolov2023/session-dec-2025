@@ -5,7 +5,7 @@ import secrets
 import math
 
 
-
+# алгорим Евклида (расширенный)
 def egcd(a, b):
     if b == 0:
         return a, 1, 0
@@ -36,11 +36,12 @@ def generate_prime(start, end):
 def generate_rsa_keys():
     p = generate_prime(100, 200)
     q = generate_prime(200, 300)
+    
     while p == q:
         q = generate_prime(200, 300)
     n = p * q
     phi = (p - 1) * (q - 1)
-    e = 5
+    e = 3
     while math.gcd(e, phi) != 1:
         e += 2
     d = modinv(e, phi)

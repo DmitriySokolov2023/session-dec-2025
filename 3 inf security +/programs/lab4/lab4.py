@@ -1,10 +1,3 @@
-#!/usr/bin/env python3
-# binding_windows.py
-# Упрощённая привязка к машине — Windows-only (WMIC).
-# Использование:
-#   python binding_windows.py bind    # создать license.dat
-#   python binding_windows.py check   # проверить соответствие
-#   python binding_windows.py run     # демонстрационный запуск (проверка)
 
 import subprocess
 import re
@@ -51,7 +44,7 @@ def build_machine_id():
     return f"MAC={mac}|FREQ={freq}"
 
 
-def create_license_file(path=f'lab4/{LICENSE_FILE}'):
+def create_license_file(path=f'{LICENSE_FILE}'):
     machine_id = build_machine_id()
     if not machine_id or machine_id == "MAC=|FREQ=0":
         print("Нет MAC или частоты")
@@ -95,9 +88,9 @@ def check_license_file(path=LICENSE_FILE):
 
 def usage():
     print("Использование:")
-    print("python binding_windows.py bind - создать license.dat")
-    print("python binding_windows.py check - проверить соответствие")
-    print("python binding_windows.py run - попытаться запустить (проверка)")
+    print("python lab4.py bind - создать license.dat")
+    print("python lab4.py check - проверить соответствие")
+    print("python lab4.py run - попытаться запустить (проверка)")
 
 def demo_run():
     if check_license_file():

@@ -34,7 +34,7 @@ def infect_file(filepath):
         print(f"Ошибка при заражении {filepath}: {e}")
 
 def main():
-    # Ищем все файлы с расширением .test в текущей папке
+    # Ищем все файлы с расширением .comtest в текущей папке
     victims = glob.glob("dir/*.comtest")
     if not victims:
         print("Нет файлов *.comtest для заражения.")
