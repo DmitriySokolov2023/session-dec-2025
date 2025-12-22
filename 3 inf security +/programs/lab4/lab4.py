@@ -50,7 +50,7 @@ def create_license_file(path=f'{LICENSE_FILE}'):
         print("Нет MAC или частоты")
         return False
     
-    salt = secrets.token_hex(16)
+    salt = secrets.token_hex(16) #при одинаковом id_машины соль будет разной
 
     digest = hashlib.sha256((salt + machine_id).encode("utf-8")).hexdigest()
 

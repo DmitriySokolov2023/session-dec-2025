@@ -42,7 +42,7 @@ def generate_rsa_keys():
     n = p * q
     phi = (p - 1) * (q - 1)
     e = 3
-    while math.gcd(e, phi) != 1:
+    while math.gcd(e, phi) != 1: #проверка что взаимно простые
         e += 2
     d = modinv(e, phi)
     return (e, n), (d, n)
