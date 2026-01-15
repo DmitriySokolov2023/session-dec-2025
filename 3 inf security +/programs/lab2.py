@@ -19,7 +19,7 @@ def generate_password(L, A_list):
         pw_chars.append(secrets.choice(A_list))
     return ''.join(pw_chars)
 
-L = 8
+L = 6
 
 def main():
     for i in range(10):

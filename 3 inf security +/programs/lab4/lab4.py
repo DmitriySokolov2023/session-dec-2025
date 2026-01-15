@@ -6,7 +6,7 @@ import secrets
 import os
 import sys
 
-LICENSE_FILE = "license.dat"
+LICENSE_FILE = "lab4/license.dat"
 
 
 def run_cmd(cmd):
@@ -88,9 +88,9 @@ def check_license_file(path=LICENSE_FILE):
 
 def usage():
     print("Использование:")
-    print("python lab4.py bind - создать license.dat")
-    print("python lab4.py check - проверить соответствие")
-    print("python lab4.py run - попытаться запустить (проверка)")
+    print("python lab4/lab4.py bind - создать license.dat")
+    print("python lab4/lab4.py check - проверить соответствие")
+    print("python lab4/lab4.py run - попытаться запустить (проверка)")
 
 def demo_run():
     if check_license_file():
