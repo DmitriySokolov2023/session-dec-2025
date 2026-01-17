@@ -166,6 +166,6 @@ def main():
                 print("Операция прошла успешно")
                 print_matrix(matrix)
             else:
-                print("Неизвестная команда. Доступные: read, write, grant, quit")
+                print("Неизвестная команда. Доступные: read, write, grant, pickup, quit")
                 
 main()
